@@ -35,7 +35,7 @@ namespace CAB301_Assignment.Models
             this.Postcode = postcode;
         }
 
-        public Address (string propertyNumber, string streetName, string suburb, State state, int postcode) // overload for no unit numebr
+        public Address (string propertyNumber, string streetName, string suburb, State state, int postcode) // overload for no unit number
         {
             this.PropertyNumber = propertyNumber;
             this.StreetName = streetName;
@@ -47,15 +47,22 @@ namespace CAB301_Assignment.Models
 
     class Member
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public Address Address { get; set; }
         public string PhoneNumber { get; set; } // so as to not remove the 0 at the start of area code
+        public List<Movie> RentedMovies { get; set; }
+        public string UserName { get; set; }
+        public int Password { get; set; } // maybe hash if i can be bothered
 
-        public Member (string name, Address address, string phoneNumber)
+        public Member (string firstName, string lastName, Address address, string phoneNumber, int password)
         {
-            this.Name = name;
+            this.FirstName = firstName;
             this.Address = address;
             this.PhoneNumber = phoneNumber;
+
+            this.UserName = lastName + firstName;
+            this.Password = password;
         }
     }
 }
