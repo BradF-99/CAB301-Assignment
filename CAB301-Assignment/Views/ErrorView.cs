@@ -15,7 +15,7 @@ namespace CAB301_Assignment.Views
         {
             Console.Clear();
             Console.Beep();
-            Console.Write("============ Error ===========\n" +
+            Console.Write("========== Error ==========\n" +
                           "An error occurred when processing " +
                           "your request.\n\n" + msg + "\n\n" +
                           "Press any key to try again.");
