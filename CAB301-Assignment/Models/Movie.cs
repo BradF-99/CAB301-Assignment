@@ -28,13 +28,13 @@ namespace CAB301_Assignment.Models
     class Movie
     {
         public string Title { get; set; }
-        public string Starring { get; set; }
+        public List<string> Starring { get; set; }
         public string Director { get; set; }
         public Genre Genre { get; set; }
         public Classification Classification { get; set; }
         public DateTime ReleaseDate { get; set; }
 
-        public Movie(string title, string starring, string director, Genre genre, Classification classification, DateTime releaseDate)
+        public Movie(string title, List<string> starring, string director, Genre genre, Classification classification, DateTime releaseDate)
         {
             this.Title = title;
             this.Starring = starring;
