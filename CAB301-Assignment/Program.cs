@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CAB301_Assignment.Views;
+using System;
 
 namespace CAB301_Assignment
 {
@@ -6,7 +7,7 @@ namespace CAB301_Assignment
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            MenuView.MainMenu();
         }
     }
 }
