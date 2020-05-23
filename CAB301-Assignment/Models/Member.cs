@@ -49,6 +49,13 @@ namespace CAB301_Assignment.Models
     {
         public string Name { get; set; }
         public Address Address { get; set; }
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } // so as to not remove the 0 at the start of area code
+
+        public Member (string name, Address address, string phoneNumber)
+        {
+            this.Name = name;
+            this.Address = address;
+            this.PhoneNumber = phoneNumber;
+        }
     }
 }
