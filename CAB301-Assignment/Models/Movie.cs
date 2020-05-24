@@ -36,6 +36,7 @@ namespace CAB301_Assignment.Models
         public DateTime ReleaseDate { get; set; }
         public int AmountBorrowed { get; set; }
         public int Copies { get; set; }
+        public int CopiesAvailable { get; set; }
 
         public Movie(string title, List<string> starring, string director, int duration, Genre genre, Classification classification, DateTime releaseDate, int copies)
         {
@@ -47,8 +48,8 @@ namespace CAB301_Assignment.Models
             this.Classification = classification;
             this.ReleaseDate = releaseDate;
             this.Copies = copies;
+            this.CopiesAvailable = copies;
             this.AmountBorrowed = 0;
-
         }
     }
 }
