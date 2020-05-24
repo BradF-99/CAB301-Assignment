@@ -6,8 +6,4 @@
     <RootNamespace>CAB301_Assignment</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>
