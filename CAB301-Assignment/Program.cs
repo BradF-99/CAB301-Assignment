@@ -5,9 +5,10 @@ namespace CAB301_Assignment
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            MenuView.MainMenu();
+            MenuView menuView = new MenuView();
+            menuView.MainMenu();
         }
     }
 }

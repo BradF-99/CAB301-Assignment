@@ -1,60 +1,55 @@
 ﻿using CAB301_Assignment.Models;
+using CAB301_Assignment.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Transactions;
 
 namespace CAB301_Assignment.Views
 {
     class MenuView
     {
-        public static void MainMenu()
-        {
-            Console.Clear();
-            Console.Write("Welcome to the Community Library\n" +
-                          "============Main Menu===========\n" +
-                          " 1. Staff Login\n" +
-                          " 2. Member Login\n" +
-                          " 0. Exit\n" +
-                          "================================\n\n" +
-                          "Please make a selection (1-2, or 0 to exit): ");
-            string menuChoice = Console.ReadLine();
+        readonly MemberCollection memberCollection = new MemberCollection();
 
-            try
+        public void MainMenu()
+        {
+            while (true)
             {
-                int result = Int32.Parse(menuChoice);
-                switch (result)
+                Console.Clear();
+                Console.Write("Welcome to the Community Library\n" +
+                              "============Main Menu===========\n" +
+                              " 1. Staff Login\n" +
+                              " 2. Member Login\n" +
+                              " 0. Exit\n" +
+                              "================================\n\n" +
+                              "Please make a selection (1-2, or 0 to exit): ");
+                string menuInput = Console.ReadLine();
+                bool menuValidInput = int.TryParse(menuInput, out int menuChoice);
+
+                if (menuValidInput)
                 {
-                    case 1:
-                        StaffLogin();
-                        break;
-                    case 2:
-                        MemberLogin();
-                        break;
-                    case 0:
-                        Environment.Exit(0);
-                        break;
-                    default:
-                        ErrorView.Error("Invalid selection. Please choose 1, 2 or 0.");
-                        break;
+                    switch (menuChoice)
+                    {
+                        case 1:
+                            this.StaffLogin();
+                            break;
+                        case 2:
+                            this.MemberLogin();
+                            break;
+                        case 0:
+                            Environment.Exit(0);
+                            break;
+                        default:
+                            ErrorView.Error("Invalid selection. Please choose 1, 2 or 0.");
+                            break;
+                    }
                 }
             }
-            catch (Exception e)
-            {
-                if(e is FormatException)
-                {
-                    ErrorView.Error("Invalid selection. Please choose 1, 2 or 0.");
-                }
-                else
-                {
-                    ErrorView.Error(e.Message);
-                }
-            }
-            MainMenu();
         }
 
-        public static void StaffLogin()
+        public void StaffLogin()
         {
             Console.Clear();
             Console.Write("==========Staff Login==========\n" +
@@ -64,17 +59,16 @@ namespace CAB301_Assignment.Views
             string password = Console.ReadLine();
             if(userName == "staff" && password == "today123")
             {
-                StaffMainMenu();
+                this.StaffMainMenu();
             } 
             else
             {
                 ErrorView.Error("Invalid username and/or password. " +
                     "Please check your credentials and try again.");
-                MainMenu();
             }
         }
 
-        public static void MemberLogin()
+        public void MemberLogin()
         {
             Console.Clear();
             Console.Write("==========Member Login==========\n" +
@@ -84,17 +78,16 @@ namespace CAB301_Assignment.Views
             string password = Console.ReadLine();
             if (userName == "staff" && password == "today123") // fix
             {
-                MemberMainMenu();
+                this.MemberMainMenu();
             }
             else
             {
                 ErrorView.Error("Invalid username and/or password. " +
                     "Please check your credentials and try again.");
-                MemberLogin();
             }
         }
 
-        public static void StaffMainMenu()
+        public void StaffMainMenu()
         {
             Console.Clear();
             Console.Write("==========Staff Menu==========\n" +
@@ -114,17 +107,19 @@ namespace CAB301_Assignment.Views
                 switch (result)
                 {
                     case 1:
-                        StaffAddMovie();
+                        this.StaffAddMovie();
                         break;
                     case 2:
+                        this.StaffRemoveMovie();
                         break;
                     case 3:
-                        StaffAddMember();
+                        this.StaffAddMember();
                         break;
                     case 4:
+                        this.StaffFindMember();
                         break;
                     case 0:
-                        MainMenu();
+                        this.MainMenu();
                         break;
                     default:
                         ErrorView.Error("Invalid selection. Please choose 1, 2, 3, 4 or 0.");
@@ -145,7 +140,7 @@ namespace CAB301_Assignment.Views
             StaffMainMenu();
         }
 
-        public static void StaffAddMovie()
+        public void StaffAddMovie()
         {
             Console.Clear();
             Console.Write("==========Add Movie==========\n");
@@ -264,12 +259,12 @@ namespace CAB301_Assignment.Views
             }
         }
 
-        public static void StaffRemoveMovie()
+        public void StaffRemoveMovie()
         {
 
         }
 
-        public static void StaffAddMember()
+        public void StaffAddMember()
         {
             Console.Clear();
             Console.Write("==========Add New Member==========\n");
@@ -287,12 +282,6 @@ namespace CAB301_Assignment.Views
             string phoneNumber = Console.ReadLine();
 
             // Address
-            // Unit Number
-            string unitNumber = "N/A"; // used later
-            Console.Write("\nUnit Number (leave blank if inapplicable): ");
-            // we parse this at the end to determine which model to use
-            unitNumber = Console.ReadLine(); 
-
             // Property Number
             Console.Write("\nProperty / House Number: ");
             string propertyNumber = Console.ReadLine();
@@ -331,9 +320,9 @@ namespace CAB301_Assignment.Views
 
             while (!pcodeValidInput)
             {
-                Console.Write("\nState: ");
+                Console.Write("\nPostcode: ");
                 string pcodeInput = Console.ReadLine();
-                bool pcodeValidParse = Int32.TryParse(pcodeInput, out postcode);
+                bool pcodeValidParse = int.TryParse(pcodeInput, out postcode);
                 
                 if(pcodeValidParse && postcode >= 200 && postcode <= 9999)
                 {
@@ -357,9 +346,6 @@ namespace CAB301_Assignment.Views
                 }
             }
 
-            // Determine which model to use
-
-
             // Review
             bool reviewValidInput = false;
             while (!reviewValidInput)
@@ -370,7 +356,6 @@ namespace CAB301_Assignment.Views
                     "\n First Name: " + firstName +
                     "\n Last Name: " + lastName +
                     "\n Phone Number: " + phoneNumber +
-                    "\n\n Unit Number: " + unitNumber +
                     "\n Property Number: " + propertyNumber +
                     "\n Street Name: " + streetName +
                     "\n Suburb: " + suburb +
@@ -384,6 +369,10 @@ namespace CAB301_Assignment.Views
                 switch (reviewChoice.ToLower())
                 {
                     case "y":
+                        Console.Clear();
+                        Console.Write("Please wait...");
+                        Address address = new Address(propertyNumber,streetName,suburb,state,postcode);
+                        memberCollection.MemberAdd(firstName,lastName,address,phoneNumber,password);
                         // add db
                         StaffMainMenu();
                         break;
@@ -398,12 +387,30 @@ namespace CAB301_Assignment.Views
 
         }
 
-        public static void StaffFindMember()
+        public void StaffFindMember()
         {
+            Console.Clear();
+            Console.Write("==========Member Lookup==========\n" +
+                "First Name: ");
+            string firstName = Console.ReadLine();
+            Console.Write("Last Name: ");
+            string lastName = Console.ReadLine();
+            try
+            {
+                Member result = memberCollection.MemberSearch(firstName, lastName);
+                Console.Write("==========Member Lookup==========\n" +
+                "Results: Phone number for " + firstName + " " + lastName + " is " + result.PhoneNumber + 
+                "\nPress any key to return to the main menu.");
+                Console.ReadKey();
+            }
+            catch (Exception e)
+            {
+                ErrorView.Error(e);
+            }
 
         }
 
-        public static void MemberMainMenu()
+        public void MemberMainMenu()
         {
             Console.Clear();
             Console.Write("==========Member Menu==========\n" +
