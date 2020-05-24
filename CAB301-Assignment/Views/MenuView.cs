@@ -119,6 +119,7 @@ namespace CAB301_Assignment.Views
                     case 2:
                         break;
                     case 3:
+                        StaffAddMember();
                         break;
                     case 4:
                         break;
@@ -270,6 +271,130 @@ namespace CAB301_Assignment.Views
 
         public static void StaffAddMember()
         {
+            Console.Clear();
+            Console.Write("==========Add New Member==========\n");
+
+            // First Name
+            Console.Write("First Name: ");
+            string firstName = Console.ReadLine();
+
+            // Last Name
+            Console.Write("Last Name: ");
+            string lastName = Console.ReadLine();
+
+            // Phone Number
+            Console.Write("Phone Number: ");
+            string phoneNumber = Console.ReadLine();
+
+            // Address
+            // Unit Number
+            string unitNumber = "N/A"; // used later
+            Console.Write("\nUnit Number (leave blank if inapplicable): ");
+            // we parse this at the end to determine which model to use
+            unitNumber = Console.ReadLine(); 
+
+            // Property Number
+            Console.Write("\nProperty / House Number: ");
+            string propertyNumber = Console.ReadLine();
+
+            // Street Name
+            Console.Write("\nStreet Name: ");
+            string streetName = Console.ReadLine();
+
+            // Suburb
+            Console.Write("\nSuburb: ");
+            string suburb = Console.ReadLine();
+
+            // State
+            bool stateValidInput = false;
+            State state = State.NSW; // happy compiler happy life
+
+            Console.Write("\nAllowable states / territories are: ");
+            int stateLength = Enum.GetValues(typeof(State)).Length;
+            for (int i = 0; i < stateLength; i++)
+            {
+                Console.Write(Enum.GetName(typeof(State), i) + " ");
+            }
+
+            while (!stateValidInput)
+            {
+                Console.Write("\nState: ");
+                string stateInput = Console.ReadLine();
+                stateValidInput = Enum.TryParse(stateInput, out state);
+            }
+
+            // Postcode
+            bool pcodeValidInput = false;
+            int postcode = 4000; // happy compiler happy life
+
+            Console.Write("\nAllowable postcode range is: 0200 - 9999.");
+
+            while (!pcodeValidInput)
+            {
+                Console.Write("\nState: ");
+                string pcodeInput = Console.ReadLine();
+                bool pcodeValidParse = Int32.TryParse(pcodeInput, out postcode);
+                
+                if(pcodeValidParse && postcode >= 200 && postcode <= 9999)
+                {
+                    pcodeValidInput = true;
+                }
+            }
+
+            // Password
+            bool passwordValidInput = false;
+            int password = 0000; // happy compiler happy life
+
+            while (!passwordValidInput)
+            {
+                Console.Write("\n\nPassword (4 digit number): ");
+                string passwordInput = Console.ReadLine();
+                bool passwordValidParse = Int32.TryParse(passwordInput, out password);
+
+                if (passwordValidParse && password >= 0 && password <= 9999)
+                {
+                    passwordValidInput = true;
+                }
+            }
+
+            // Determine which model to use
+
+
+            // Review
+            bool reviewValidInput = false;
+            while (!reviewValidInput)
+            {
+                Console.Clear();
+                Console.Write("==========Add New Member==========\n" +
+                    "Please review the below information to ensure everything is correct.\n" +
+                    "\n First Name: " + firstName +
+                    "\n Last Name: " + lastName +
+                    "\n Phone Number: " + phoneNumber +
+                    "\n\n Unit Number: " + unitNumber +
+                    "\n Property Number: " + propertyNumber +
+                    "\n Street Name: " + streetName +
+                    "\n Suburb: " + suburb +
+                    "\n State: " + state.ToString() +
+                    "\n Postcode: " + postcode +
+                    "\n\n Username: " + lastName + firstName +
+                    "\n Password: " + password +
+                    "\n\nTo add this member to the database, press Y. To start again, press N.");
+                string reviewChoice = Console.ReadLine();
+
+                switch (reviewChoice.ToLower())
+                {
+                    case "y":
+                        // add db
+                        StaffMainMenu();
+                        break;
+                    case "n":
+                        StaffAddMember();
+                        break;
+                }
+
+                // no need for default as it will loop again if invalid response
+                Console.Beep();
+            }
 
         }
 
