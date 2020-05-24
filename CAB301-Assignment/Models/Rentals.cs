@@ -12,7 +12,9 @@ namespace CAB301_Assignment.Models
 
         public Rentals (Movie movie, Member member)
         {
-
+            this.Movie = movie;
+            this.Member = member;
+            this.RentalDate = DateTime.Now;
         }
     }
 }
