@@ -22,7 +22,6 @@ namespace CAB301_Assignment.Models
         public string StreetName { get; set; }
         public string Suburb { get; set; }
         public State State { get; set; }
-
         public int Postcode { get; set; }
 
         public Address (int unitNumber, string propertyNumber, string streetName, string suburb, State state, int postcode)
