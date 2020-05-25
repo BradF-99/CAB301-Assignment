@@ -42,8 +42,6 @@ namespace CAB301_Assignment.ViewModels
         {
             try
             {
-                int passwordParse;
-
                 Member member = memberList.SingleOrDefault(member => member.UserName == userName);
                 if (member == null)
                 {
@@ -52,9 +50,9 @@ namespace CAB301_Assignment.ViewModels
                 }
 
 
-                if (!Int32.TryParse(password, out passwordParse))
-                throw new System.ArgumentException("Invalid username and/or password. " +
-                    "Please check your credentials and try again.");
+                if (!Int32.TryParse(password, out int passwordParse))
+                    throw new System.ArgumentException("Invalid username and/or password. " +
+                        "Please check your credentials and try again.");
 
                 if (member.Password == passwordParse)
                     return member;
