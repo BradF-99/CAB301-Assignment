@@ -2,10 +2,7 @@
 using CAB301_Assignment.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Transactions;
 
 namespace CAB301_Assignment.Views
 {
