@@ -109,10 +109,7 @@ namespace CAB301_Assignment.ViewModels
             public void ReturnMovie(Models.Movie movie)
             {
                 Node<Movie> movieNode = this.NodeSearch(movie.Title, null);
-
                 movieNode.Data.CopiesAvailable++;
-                movieNode.Data.AmountBorrowed--;
-               
             }
 
             public void Insert(Models.Movie movie)
