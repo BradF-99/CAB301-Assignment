@@ -466,7 +466,9 @@ namespace CAB301_Assignment.Views
         {
             List<Movie> movieList = movieCollection.Tree.Traverse();
             if (movieList.Count == 0)
-                throw new Exception("There are no movies yet.");
+            {
+                ErrorView.Error("There are no movies yet.");
+            }
 
             Console.Clear();
             Console.Write("==========List of Movies==========\n" +
@@ -474,7 +476,7 @@ namespace CAB301_Assignment.Views
 
             for (int i = 0; i < movieList.Count; i++)
             {
-                Console.WriteLine(i + 1 + movieList[i].Title);
+                Console.WriteLine(i + 1 + ". " + movieList[i].Title);
             }
 
             Console.Write("\nPress any key to return to the main menu.");
@@ -600,7 +602,7 @@ namespace CAB301_Assignment.Views
 
             for (int i = 0; i < member.RentedMovies.Count; i++)
             {
-                Console.WriteLine(i + 1 + member.RentedMovies[i].Title);
+                Console.WriteLine(i + 1 + ". " + member.RentedMovies[i].Title);
             }
 
             Console.Write("\nPress any key to return to the main menu.");
@@ -609,7 +611,25 @@ namespace CAB301_Assignment.Views
 
         public void MemberDisplayPopular()
         {
-            // TO DO IMPLEMENT
+            List<Movie> movieList = movieCollection.Tree.Traverse();
+            if (movieList.Count == 0)
+            {
+                ErrorView.Error("There are no movies yet.");
+            }
+
+            movieList = movieList.OrderBy(movie => movie.AmountBorrowed).Take(10).ToList();
+
+            Console.Clear();
+            Console.Write("==========Most Popular Movies==========\n" +
+                "Here are the top 10 most frequently borrowed movies.\n\n");
+
+            for (int i = 0; i < movieList.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + movieList[i].Title);
+            }
+
+            Console.Write("\nPress any key to return to the main menu.");
+            Console.ReadKey();
         }
     }
 }
