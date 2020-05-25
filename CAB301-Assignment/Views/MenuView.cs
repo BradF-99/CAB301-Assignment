@@ -518,7 +518,14 @@ namespace CAB301_Assignment.Views
 
             for (int i = 0; i < movieList.Count; i++)
             {
-                Console.WriteLine(i + 1 + ". " + movieList[i].Title);
+                Console.WriteLine(i + 1 + ". " + movieList[i].Title + 
+                        "\n Starring: " + String.Join(",", movieList[i].Starring) +
+                        "\n Director: " + movieList[i].Director +
+                        "\n Duration: " + movieList[i].Duration + " mins" +
+                        "\n Genre: " + movieList[i].Genre.ToString() +
+                        "\n Classification: " + movieList[i].Classification.ToString() +
+                        "\n Release Date: " + movieList[i].ReleaseDate.ToString("dd/MM/yyyy") +
+                        "\n Copies:" + movieList[i].CopiesAvailable + "\n\n");
             }
 
             Console.Write("\nPress any key to return to the main menu.");
@@ -667,7 +674,7 @@ namespace CAB301_Assignment.Views
 
             for (int i = 0; i < movieList.Count; i++)
             {
-                Console.WriteLine(i + 1 + ". " + movieList[i].Title);
+                Console.WriteLine(i + 1 + ". " + movieList[i].Title + " - borrowed " + movieList[i].AmountBorrowed + " times.");
             }
 
             Console.Write("\nPress any key to return to the main menu.");
