@@ -479,7 +479,7 @@ namespace CAB301_Assignment.Views
             {
                 Console.Clear();
                 Console.Write("Please wait...");
-                Movie result = movieCollection.Tree.Search(movieName, null);
+                Movie result = movieCollection.Tree.Search(movieName);
 
                 bool reviewValidInput = false;
                 while (!reviewValidInput)
@@ -526,58 +526,78 @@ namespace CAB301_Assignment.Views
         public void MemberReturnMovie(Member member)
         {
             if (member.RentedMovies.Count == 0)
-                throw new Exception("You have no movies to return.");
-
-            Console.Clear();
-            Console.Write("==========Return Movie==========\n" +
-                "Here are your currently borrowed movies. Please select the one you wish to return or type 0 to exit.\n\n");
-
-            Movie returnChoice = null;
-            int choice = 0;
-            for (int i = 0; i < member.RentedMovies.Count; i++)
             {
-                Console.WriteLine(i + 1 + member.RentedMovies[i].Title);
+                ErrorView.Error("You have no movies to return.");
             }
-            bool returnChoiceValidInput = false;
-            while (!returnChoiceValidInput)
-            {
-                string choiceInput = Console.ReadLine();
-                bool choiceValidParse = Int32.TryParse(choiceInput, out choice);
-
-                if (choiceValidParse)
-                {
-                    if (choice == 0)
-                    {
-                        return;
-                    }
-                    if (choice <= member.RentedMovies.Count)
-                    {
-                        returnChoice = member.RentedMovies[choice - 1];
-                    }
-                }
-            }
-
-            try
+            else
             {
                 Console.Clear();
-                Console.Write("Please wait...");
-                movieCollection.Tree.ReturnMovie(returnChoice);
-                member.RentedMovies.RemoveAt(choice - 1);
-            }
-            catch (Exception e)
-            {
-                ErrorView.Error(e);
+                Console.Write("==========Return Movie==========\n" +
+                    "Here are your currently borrowed movies. Please select the one you wish to return or type 0 to exit.\n\n");
+
+                for (int i = 0; i < member.RentedMovies.Count; i++)
+                {
+                    Console.WriteLine(i + 1 + ". " + member.RentedMovies[i].Title);
+                }
+
+                Movie returnChoice = null;
+                int choice = 0;
+                bool returnChoiceValidInput = false;
+
+                while (!returnChoiceValidInput)
+                {
+                    string choiceInput = Console.ReadLine();
+                    bool choiceValidParse = Int32.TryParse(choiceInput, out choice);
+
+                    if (choiceValidParse)
+                    {
+                        returnChoiceValidInput = true;
+                        if (choice == 0)
+                        {
+                            return;
+                        }
+                        if (choice <= member.RentedMovies.Count)
+                        {
+                            returnChoice = member.RentedMovies[choice - 1];
+                        }
+                    }
+                }
+
+                try
+                {
+                    Console.Clear();
+                    Console.Write("Please wait...");
+                    movieCollection.Tree.ReturnMovie(returnChoice);
+                    member.RentedMovies.RemoveAt(choice - 1);
+                }
+                catch (Exception e)
+                {
+                    ErrorView.Error(e);
+                }
             }
         }
 
         public void MemberListBorrowed(Member member)
         {
+            if (member.RentedMovies.Count == 0)
+                throw new Exception("You have borrowed no movies.");
 
+            Console.Clear();
+            Console.Write("==========Borrowed Movies==========\n" +
+                "Here are your currently borrowed movies.\n\n");
+
+            for (int i = 0; i < member.RentedMovies.Count; i++)
+            {
+                Console.WriteLine(i + 1 + member.RentedMovies[i].Title);
+            }
+
+            Console.Write("\nPress any key to return to the main menu.");
+            Console.ReadKey();
         }
 
         public void MemberDisplayPopular()
         {
-
+            // TO DO IMPLEMENT
         }
     }
 }
