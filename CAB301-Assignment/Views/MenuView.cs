@@ -265,7 +265,52 @@ namespace CAB301_Assignment.Views
 
         public void StaffRemoveMovie()
         {
-            // TO DO IMPLEMENT
+            Console.Clear();
+            Console.Write("==========Delete Movie==========\n" +
+                "Movie Name: ");
+            string movieName = Console.ReadLine();
+
+            try
+            {
+                Console.Clear();
+                Console.Write("Please wait...");
+                Movie result = movieCollection.Tree.Search(movieName);
+
+                bool reviewValidInput = false;
+                while (!reviewValidInput)
+                {
+                    Console.Clear();
+                    Console.Write("==========Delete Movie==========\n" +
+                        "Please review the below information to ensure everything is correct.\n" +
+                        "\n Title: " + result.Title +
+                        "\n Starring: " + String.Join(",", result.Starring) +
+                        "\n Director: " + result.Director +
+                        "\n Duration: " + result.Duration + " mins" +
+                        "\n Genre: " + result.Genre.ToString() +
+                        "\n Classification: " + result.Classification.ToString() +
+                        "\n Release Date: " + result.ReleaseDate.ToString("dd/MM/yyyy") +
+                        "\n\nTo confirm deletion of this movie, press Y. To start again, press N.");
+                    string reviewChoice = Console.ReadLine();
+
+                    switch (reviewChoice.ToLower())
+                    {
+                        case "y":
+                            Console.Clear();
+                            Console.Write("Please wait...");
+                            movieCollection.Tree.Remove(result);
+                            return;
+                        case "n":
+                            return;
+                    }
+
+                    // no need for default as it will loop again if invalid response
+                    Console.Beep();
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorView.Error(e);
+            }
         }
 
         public void StaffAddMember()
