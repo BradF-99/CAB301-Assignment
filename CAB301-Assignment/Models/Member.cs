@@ -41,13 +41,15 @@ namespace CAB301_Assignment.Models
         public string PhoneNumber { get; set; } // so as to not remove the 0 at the start of area code
         public List<Movie> RentedMovies { get; set; }
         public string UserName { get; set; }
-        public int Password { get; set; } // maybe hash if i can be bothered
+        public int Password { get; set; } 
 
         public Member (string firstName, string lastName, Address address, string phoneNumber, int password)
         {
             this.FirstName = firstName;
             this.Address = address;
             this.PhoneNumber = phoneNumber;
+
+            this.RentedMovies = new List<Movie>();
 
             this.UserName = lastName + firstName;
             this.Password = password;
