@@ -377,7 +377,6 @@ namespace CAB301_Assignment.Views
                         Console.Write("Please wait...");
                         Address address = new Address(propertyNumber, streetName, suburb, state, postcode);
                         memberCollection.MemberAdd(firstName, lastName, address, phoneNumber, password);
-                        // add db
                         StaffMainMenu();
                         break;
                     case "n":
@@ -465,7 +464,21 @@ namespace CAB301_Assignment.Views
 
         public void MemberDisplayAllMovies()
         {
-            // TO DO IMPLEMENT
+            List<Movie> movieList = movieCollection.Tree.Traverse();
+            if (movieList.Count == 0)
+                throw new Exception("There are no movies yet.");
+
+            Console.Clear();
+            Console.Write("==========List of Movies==========\n" +
+                "Here are the movies on file.\n\n");
+
+            for (int i = 0; i < movieList.Count; i++)
+            {
+                Console.WriteLine(i + 1 + movieList[i].Title);
+            }
+
+            Console.Write("\nPress any key to return to the main menu.");
+            Console.ReadKey();
         }
 
         public void MemberBorrowMovie(Member member)
@@ -507,7 +520,6 @@ namespace CAB301_Assignment.Views
                                 "Please return some movies before attempting to borrow more.");
                             movieCollection.Tree.BorrowMovie(result);
                             member.RentedMovies.Add(result);
-
                             return;
                         case "n":
                             return;
