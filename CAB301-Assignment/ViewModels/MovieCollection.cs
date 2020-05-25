@@ -44,7 +44,7 @@ namespace CAB301_Assignment.ViewModels
                 {
                     Models.Movie result = Search(query, this.Root);
                     if (result == null)
-                         throw new ArgumentException("Movie not found. Please check your query and try again.");
+                        throw new ArgumentException("Movie not found. Please check your query and try again.");
                     return result;
                 }
                 catch (Exception e)
@@ -73,7 +73,7 @@ namespace CAB301_Assignment.ViewModels
                 {
                     throw e;
                 }
-                
+
             }
 
             // used for editing existing data in nodes
@@ -102,7 +102,7 @@ namespace CAB301_Assignment.ViewModels
             public void BorrowMovie(Models.Movie movie)
             {
                 Node<Movie> movieNode = this.NodeSearch(movie.Title, this.Root);
-                if(movieNode.Data.CopiesAvailable > 0)
+                if (movieNode.Data.CopiesAvailable > 0)
                 {
                     movieNode.Data.CopiesAvailable--;
                     movieNode.Data.AmountBorrowed++;
@@ -129,7 +129,7 @@ namespace CAB301_Assignment.ViewModels
                     this.Root = newNode;
                 }
                 else
-                { 
+                {
                     currentNode = this.Root;
                     while (true)
                     {
@@ -156,6 +156,15 @@ namespace CAB301_Assignment.ViewModels
                         }
                     }
                 }
+            }
+
+            public Node<Movie> MinimumKey(Node<Movie> node)
+            {
+                while(node.Left != null)
+                {
+                    node = node.Left;
+                }
+                return node;
             }
 
             public void Remove(Models.Movie movie)
@@ -193,6 +202,23 @@ namespace CAB301_Assignment.ViewModels
                     // it has both left and right children
                     else
                     {
+                        if(deleteNode.Left.Right == null) // edge case where right tree of left child is empty
+                        {
+                            deleteNode.Data = deleteNode.Left.Data;
+                            deleteNode.Left = deleteNode.Left.Left;
+                        }
+                        else
+                        {
+                            Node<Movie> deleteNodeLeft = deleteNode.Left; // get left node of deleted
+                            while(deleteNodeLeft.Right != null)
+                            {
+                                deleteNode = deleteNodeLeft;
+                                deleteNodeLeft = deleteNodeLeft.Right;
+                            }
+                            deleteNode.Data = deleteNodeLeft.Data;
+                            deleteNode.Right = deleteNodeLeft.Left;
+                        }
+
 
                     }
                 }
