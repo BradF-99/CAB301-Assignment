@@ -131,8 +131,6 @@ namespace CAB301_Assignment.ViewModels
                     while (true)
                     {
                         tempParentNode = current;
-                        //query.ToLower().CompareTo(node.Data.Title.ToLower()) == -1
-                        //newNode.Data.GetHashCode() < current.Data.GetHashCode()
                         if (newNode.Data.Title.ToLower().CompareTo(current.Data.Title.ToLower()) == -1)
                         {
                             current = current.Left;
@@ -154,6 +152,23 @@ namespace CAB301_Assignment.ViewModels
                             }
                         }
                     }
+                }
+            }
+
+            public List<Models.Movie> Traverse()
+            {
+                List<Models.Movie> movieList = new List<Models.Movie>();
+                InOrderTraverse(movieList, this.Root);
+                return movieList;
+            }
+
+            public void InOrderTraverse(List<Models.Movie> list, Node<Movie> root)
+            {
+                if(root != null)
+                {
+                    InOrderTraverse(list, root.Left);
+                    list.Add(root.Data);
+                    InOrderTraverse(list, root.Right);
                 }
             }
         }
