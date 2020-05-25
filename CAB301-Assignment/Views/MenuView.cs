@@ -662,7 +662,7 @@ namespace CAB301_Assignment.Views
                 ErrorView.Error("There are no movies yet.");
             }
 
-            movieList = movieList.OrderBy(movie => movie.AmountBorrowed).Take(10).ToList();
+            movieList = movieList.OrderByDescending(movie => movie.AmountBorrowed).Take(10).ToList();
 
             Console.Clear();
             Console.Write("==========Most Popular Movies==========\n" +
