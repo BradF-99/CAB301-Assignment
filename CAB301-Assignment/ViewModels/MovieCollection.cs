@@ -40,19 +40,28 @@ namespace CAB301_Assignment.ViewModels
 
             public Models.Movie Search(string query, Node<Movie> node)
             {
-                if (node == null)
-                    node = this.Root;
-               
-                if (node == null)
-                    throw new ArgumentException("Movie not found. Please check your query and try again.");
-                // hash the titles to check which is larger
-                // if equal we have the correct node
-                else if (query.GetHashCode() == node.Data.Title.GetHashCode()) 
-                    return node.Data;
-                else if (query.GetHashCode() < node.Data.Title.GetHashCode())
-                    return this.Search(query, node.Left);
-                else
-                    return this.Search(query, node.Right);
+                try
+                {
+                    if (node == null)
+                        node = this.Root;
+
+                    if (node == null) // check twice
+                        throw new ArgumentException("Movie not found. Please check your query and try again.");
+                    // if comparison equal we have the correct node
+                    else if (query.ToLower().CompareTo(node.Data.Title.ToLower()) == 0)
+                        return node.Data;
+                    // if comparison is lower go left
+                    else if (query.ToLower().CompareTo(node.Data.Title.ToLower()) == -1)
+                        return this.Search(query, node.Left);
+                    // go right (no point checking again)
+                    else
+                        return this.Search(query, node.Right);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                
             }
 
             // used for editing existing data in nodes
