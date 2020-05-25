@@ -38,24 +38,36 @@ namespace CAB301_Assignment.ViewModels
                 this.Root = null;
             }
 
+            public Models.Movie Search(string query)
+            {
+                try
+                {
+                    Models.Movie result = Search(query, this.Root);
+                    if (result == null)
+                         throw new ArgumentException("Movie not found. Please check your query and try again.");
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
             public Models.Movie Search(string query, Node<Movie> node)
             {
                 try
                 {
-                    if (node == null)
-                        node = this.Root;
-
                     if (node == null) // check twice
-                        throw new ArgumentException("Movie not found. Please check your query and try again.");
-                    // if comparison equal we have the correct node
-                    else if (query.ToLower().CompareTo(node.Data.Title.ToLower()) == 0)
-                        return node.Data;
+                        return null;
                     // if comparison is lower go left
-                    else if (query.ToLower().CompareTo(node.Data.Title.ToLower()) == -1)
+                    if (query.ToLower().CompareTo(node.Data.Title.ToLower()) == -1)
                         return this.Search(query, node.Left);
-                    // go right (no point checking again)
-                    else
+                    // if comparison is higher go right
+                    else if (query.ToLower().CompareTo(node.Data.Title.ToLower()) == 1)
                         return this.Search(query, node.Right);
+                    // we have the correct node
+                    else
+                        return node.Data;
                 }
                 catch (Exception e)
                 {
@@ -106,7 +118,7 @@ namespace CAB301_Assignment.ViewModels
             public void Insert(Models.Movie movie)
             {
                 Node<Movie> newNode = new Node<Movie>(movie);
-                Node<Movie> current, tempParent;
+                Node<Movie> current, tempParentNode;
 
                 if (this.Root == null)
                 {
@@ -118,14 +130,16 @@ namespace CAB301_Assignment.ViewModels
                     current = this.Root;
                     while (true)
                     {
-                        tempParent = current;
-                        if (newNode.Data.GetHashCode() < current.Data.GetHashCode())
+                        tempParentNode = current;
+                        //query.ToLower().CompareTo(node.Data.Title.ToLower()) == -1
+                        //newNode.Data.GetHashCode() < current.Data.GetHashCode()
+                        if (newNode.Data.Title.ToLower().CompareTo(current.Data.Title.ToLower()) == -1)
                         {
                             current = current.Left;
                             if (current == null)
                             {
-                                tempParent.Left = newNode;
-                                newNode.Parent = tempParent;
+                                tempParentNode.Left = newNode;
+                                newNode.Parent = tempParentNode;
                                 return;
                             }
                         }
@@ -134,8 +148,8 @@ namespace CAB301_Assignment.ViewModels
                             current = current.Right;
                             if (current == null)
                             {
-                                tempParent.Right = newNode;
-                                newNode.Parent = tempParent;
+                                tempParentNode.Right = newNode;
+                                newNode.Parent = tempParentNode;
                                 return;
                             }
                         }
