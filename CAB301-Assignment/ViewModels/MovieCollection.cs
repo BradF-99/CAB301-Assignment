@@ -158,15 +158,6 @@ namespace CAB301_Assignment.ViewModels
                 }
             }
 
-            public Node<Movie> MinimumKey(Node<Movie> node)
-            {
-                while(node.Left != null)
-                {
-                    node = node.Left;
-                }
-                return node;
-            }
-
             public void Remove(Models.Movie movie)
             {
                 Node<Movie> deleteNode = this.NodeSearch(movie.Title, this.Root);
