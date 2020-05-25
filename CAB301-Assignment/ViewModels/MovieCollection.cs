@@ -79,22 +79,29 @@ namespace CAB301_Assignment.ViewModels
             // used for editing existing data in nodes
             public Node<Movie> NodeSearch(string query, Node<Movie> node)
             {
-                if (node == null)
-                    node = this.Root;
-
-                if (node == null)
-                    throw new ArgumentException("Movie not found. Please check your query and try again.");
-                else if (query.GetHashCode() == node.Data.Title.GetHashCode())
-                    return node;
-                else if (query.GetHashCode() < node.Data.Title.GetHashCode())
-                    return this.NodeSearch(query, node.Left);
-                else
-                    return this.NodeSearch(query, node.Right);
+                try
+                {
+                    if (node == null) // check twice
+                        return null;
+                    // if comparison is lower go left
+                    if (query.ToLower().CompareTo(node.Data.Title.ToLower()) == -1)
+                        return this.NodeSearch(query, node.Left);
+                    // if comparison is higher go right
+                    else if (query.ToLower().CompareTo(node.Data.Title.ToLower()) == 1)
+                        return this.NodeSearch(query, node.Right);
+                    // we have the correct node
+                    else
+                        return node;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
 
             public void BorrowMovie(Models.Movie movie)
             {
-                Node<Movie> movieNode = this.NodeSearch(movie.Title,null);
+                Node<Movie> movieNode = this.NodeSearch(movie.Title, this.Root);
                 if(movieNode.Data.CopiesAvailable > 0)
                 {
                     movieNode.Data.CopiesAvailable--;
@@ -108,30 +115,29 @@ namespace CAB301_Assignment.ViewModels
 
             public void ReturnMovie(Models.Movie movie)
             {
-                Node<Movie> movieNode = this.NodeSearch(movie.Title, null);
+                Node<Movie> movieNode = this.NodeSearch(movie.Title, this.Root);
                 movieNode.Data.CopiesAvailable++;
             }
 
             public void Insert(Models.Movie movie)
             {
                 Node<Movie> newNode = new Node<Movie>(movie);
-                Node<Movie> current, tempParentNode;
+                Node<Movie> currentNode, tempParentNode;
 
-                if (this.Root == null)
+                if (this.Root == null) // if the tree is empty insert at root
                 {
-                    //First node insertion
                     this.Root = newNode;
                 }
                 else
                 { 
-                    current = this.Root;
+                    currentNode = this.Root;
                     while (true)
                     {
-                        tempParentNode = current;
-                        if (newNode.Data.Title.ToLower().CompareTo(current.Data.Title.ToLower()) == -1)
+                        tempParentNode = currentNode;
+                        if (newNode.Data.Title.ToLower().CompareTo(currentNode.Data.Title.ToLower()) == -1)
                         {
-                            current = current.Left;
-                            if (current == null)
+                            currentNode = currentNode.Left;
+                            if (currentNode == null)
                             {
                                 tempParentNode.Left = newNode;
                                 newNode.Parent = tempParentNode;
@@ -140,8 +146,8 @@ namespace CAB301_Assignment.ViewModels
                         }
                         else
                         {
-                            current = current.Right;
-                            if (current == null)
+                            currentNode = currentNode.Right;
+                            if (currentNode == null)
                             {
                                 tempParentNode.Right = newNode;
                                 newNode.Parent = tempParentNode;
@@ -149,6 +155,50 @@ namespace CAB301_Assignment.ViewModels
                             }
                         }
                     }
+                }
+            }
+
+            public void Remove(Models.Movie movie)
+            {
+                Node<Movie> deleteNode = this.NodeSearch(movie.Title, this.Root);
+                Node<Movie> deleteNodeParent, deleteNodeChild; // used for temporarily storing parent and child nodes
+
+                if (deleteNode != null) // make sure we aren't deleting a node that doesn't exist
+                {
+                    // first check if it's a leaf node
+                    if (deleteNode.Left == null && deleteNode.Right == null)
+                    {
+                        deleteNodeParent = deleteNode.Parent; // assign parent to variable
+                        if (deleteNode == deleteNodeParent.Left) // check if deleted node is on left or right
+                            deleteNodeParent.Left = null; // delete it from the parent
+                        else // will be on the right
+                            deleteNodeParent.Right = null;
+                    }
+                    // if true it has a child left or right but not at both
+                    else if (deleteNode.Left == null ^ deleteNode.Right == null)
+                    {
+                        deleteNodeParent = deleteNode.Parent; // get the parent to store the children in
+
+                        if (deleteNode.Left == null) // check if child is on left or right
+                            deleteNodeChild = deleteNode.Right; // get the right side and store it
+                        else
+                            deleteNodeChild = deleteNode.Left; // get left side and store it
+
+                        if (deleteNode == deleteNodeParent.Left) // if deleted node is on the left
+                            deleteNodeParent.Left = deleteNodeChild; // store the child node in its place on the left
+                        else
+                            deleteNodeParent.Right = deleteNodeChild; // or on the right
+
+                    }
+                    // it has both left and right children
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Movie not found in database.");
                 }
             }
 
