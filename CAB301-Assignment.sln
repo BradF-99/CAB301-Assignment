@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAB301-Assignment", "CAB301-Assignment\CAB301-Assignment.csproj", "{F05ABA9A-66F6-4963-AD01-93EEDFAB0132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAB301-Assignment-UnitTests", "CAB301-Assignment-UnitTests\CAB301-Assignment-UnitTests.csproj", "{CBFB02BB-D07B-49C3-80DA-EB5A2F5DA715}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{F05ABA9A-66F6-4963-AD01-93EEDFAB0132}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F05ABA9A-66F6-4963-AD01-93EEDFAB0132}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F05ABA9A-66F6-4963-AD01-93EEDFAB0132}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBFB02BB-D07B-49C3-80DA-EB5A2F5DA715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBFB02BB-D07B-49C3-80DA-EB5A2F5DA715}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBFB02BB-D07B-49C3-80DA-EB5A2F5DA715}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBFB02BB-D07B-49C3-80DA-EB5A2F5DA715}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
